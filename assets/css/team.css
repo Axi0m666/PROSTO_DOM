@@ -1,0 +1,226 @@
+/* ===== TEAM PAGE ===== */
+.team-hero {
+    padding: 140px 0 80px;
+    padding-top: max(140px, calc(120px + env(safe-area-inset-top, 0px)));
+    background: linear-gradient(135deg, var(--secondary) 0%, #1a3238 100%);
+    color: var(--white);
+    text-align: center;
+}
+
+.team-hero h1 {
+    font-size: clamp(1.75rem, 4vw + 1rem, 3rem);
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+.team-hero p {
+    font-size: clamp(15px, 2.5vw, 18px);
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+    padding: 0 env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px);
+}
+
+.team-section {
+    padding: 80px 0;
+    background: var(--gray-50);
+}
+
+/* Leader Block */
+.team-leader {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.team-leader.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.team-leader-badge {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.team-leader-text h2 {
+    font-size: 40px;
+    color: var(--secondary);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.team-leader-text > p {
+    font-size: 17px;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 24px;
+}
+
+.team-leader-photo {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    aspect-ratio: 3/4;
+}
+
+.team-leader-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.team-leader-photo:hover img {
+    transform: scale(1.03);
+}
+
+/* Team Grid */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.team-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.team-card.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.team-card-photo {
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.team-card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.team-card:hover .team-card-photo img {
+    transform: scale(1.05);
+}
+
+.team-card-info {
+    padding: 20px;
+}
+
+.team-card-info h3 {
+    font-size: 17px;
+    color: var(--secondary);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.team-card-info p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.team-cta {
+    padding: 80px 0;
+    background: var(--white);
+    text-align: center;
+}
+
+.team-cta h2 {
+    font-size: 36px;
+    color: var(--secondary);
+    margin-bottom: 12px;
+}
+
+.team-cta p {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 32px;
+}
+
+@media (max-width: 1200px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 968px) {
+    .team-leader {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .team-leader-photo {
+        max-width: min(100%, 400px);
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .team-leader-text h2 {
+        font-size: 30px;
+    }
+
+    .team-cta h2 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-section {
+        padding: 56px 0;
+    }
+
+    .team-hero {
+        padding: 120px 0 56px;
+    }
+
+    .team-card-info {
+        padding: 18px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-leader-text h2 {
+        font-size: 1.35rem;
+    }
+
+    .team-cta {
+        padding: 56px 0;
+        padding-bottom: max(56px, calc(40px + env(safe-area-inset-bottom, 0px)));
+    }
+}
