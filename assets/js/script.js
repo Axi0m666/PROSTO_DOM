@@ -301,17 +301,17 @@ document.querySelectorAll('.gallery-item-large-visual, .gallery-item-small').for
     });
 });
 
-const animateCounter = (element, target, duration = 1500) => {
+const animateCounter = (element, target, duration = 1500, suffix = '') => {
     let start = 0;
     const increment = target / (duration / 16);
 
     const timer = setInterval(() => {
         start += increment;
         if (start >= target) {
-            element.textContent = target + (element.textContent.includes('+') ? '+' : '');
+            element.textContent = target + suffix;
             clearInterval(timer);
         } else {
-            element.textContent = Math.floor(start) + (element.textContent.includes('+') ? '+' : '');
+            element.textContent = Math.floor(start) + suffix;
         }
     }, 16);
 };
@@ -321,9 +321,11 @@ const statsObserver = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             const statNumbers = entry.target.querySelectorAll('.stat-number');
             statNumbers.forEach(stat => {
-                const target = parseInt(stat.textContent);
-                stat.textContent = '0';
-                animateCounter(stat, target);
+                const raw = stat.textContent.trim();
+                const suffix = raw.includes('+') ? '+' : '';
+                const target = parseInt(raw, 10);
+                stat.textContent = suffix ? '0' + suffix : '0';
+                animateCounter(stat, target, 1500, suffix);
             });
             statsObserver.unobserve(entry.target);
         }
