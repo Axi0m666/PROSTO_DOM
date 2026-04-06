@@ -140,6 +140,7 @@
     font-size: 36px;
     color: var(--secondary);
     margin-bottom: 12px;
+    text-wrap: balance;
 }
 
 .services-cta p {
@@ -220,6 +221,8 @@
     flex-shrink: 0;
     padding: 12px 28px;
     white-space: nowrap;
+    border-radius: 25px;
+    font-weight: 600;
 }
 
 @media (max-width: 968px) {

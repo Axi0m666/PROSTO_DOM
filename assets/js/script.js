@@ -53,49 +53,50 @@ window.addEventListener('resize', () => {
 });
 
 const navbar = document.querySelector('.navbar');
-let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
+    if (!navbar) return;
     const currentScroll = window.pageYOffset;
-
     if (currentScroll > 100) {
         navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
     } else {
         navbar.style.boxShadow = '0 1px 2px 0 rgb(0 0 0 / 0.05)';
     }
-
-    lastScroll = currentScroll;
 });
 
-const contactForm = document.querySelector('.contact-form');
-const contactSubmitBtn = document.querySelector('.contact-submit-btn');
+function bindLeadForm(form, submitBtn) {
+    if (!form || !submitBtn) return;
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
 
-contactSubmitBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
+        const nameInput = form.querySelector('input[type="text"]');
+        const phoneInput = form.querySelector('input[type="tel"]');
+        const customSelect = form.querySelector('.custom-select');
+        const hiddenInput = customSelect ? customSelect.querySelector('input[type="hidden"]') : null;
+        const selectedValue = hiddenInput ? hiddenInput.value : '';
 
-    const nameInput = contactForm.querySelector('input[type="text"]');
-    const phoneInput = contactForm.querySelector('input[type="tel"]');
-    const customSelect = contactForm.querySelector('.custom-select');
-    const selectedValue = customSelect?.querySelector('input[type="hidden"]')?.value;
+        if (!nameInput.value.trim()) {
+            shakeElement(nameInput);
+            return;
+        }
+        if (!phoneInput.value.trim()) {
+            shakeElement(phoneInput);
+            return;
+        }
+        if (!selectedValue) {
+            shakeElement(customSelect.querySelector('.custom-select-trigger'));
+            return;
+        }
 
-    if (!nameInput.value.trim()) {
-        shakeElement(nameInput);
-        return;
-    }
-    if (!phoneInput.value.trim()) {
-        shakeElement(phoneInput);
-        return;
-    }
-    if (!selectedValue) {
-        shakeElement(customSelect.querySelector('.custom-select-trigger'));
-        return;
-    }
+        showNotification('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+        form.reset();
+        customSelect.classList.remove('has-value');
+        customSelect.querySelector('.selected-text').textContent = 'Что вас интересует';
+    });
+}
 
-    showNotification('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-    contactForm.reset();
-    customSelect.classList.remove('has-value');
-    customSelect.querySelector('.selected-text').textContent = 'Что вас интересует';
-});
+bindLeadForm(document.querySelector('.contact-form'), document.querySelector('.contact-submit-btn'));
+bindLeadForm(document.querySelector('.services-form'), document.querySelector('.services-submit-btn'));
 
 function shakeElement(el) {
     el.style.animation = 'none';
@@ -135,48 +136,8 @@ function showNotification(text) {
     }, 3000);
 }
 
-const servicesForm = document.querySelector('.services-form');
-const servicesSubmitBtn = document.querySelector('.services-submit-btn');
-
-servicesSubmitBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const nameInput = servicesForm.querySelector('input[type="text"]');
-    const phoneInput = servicesForm.querySelector('input[type="tel"]');
-    const customSelect = servicesForm.querySelector('.custom-select');
-    const selectedValue = customSelect?.querySelector('input[type="hidden"]')?.value;
-
-    if (!nameInput.value.trim()) {
-        shakeElement(nameInput);
-        return;
-    }
-    if (!phoneInput.value.trim()) {
-        shakeElement(phoneInput);
-        return;
-    }
-    if (!selectedValue) {
-        shakeElement(customSelect.querySelector('.custom-select-trigger'));
-        return;
-    }
-
-    showNotification('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-    servicesForm.reset();
-    customSelect.classList.remove('has-value');
-    customSelect.querySelector('.selected-text').textContent = 'Что вас интересует';
-});
-
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(400px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(400px); opacity: 0; }
-    }
-
+const injectedStyles = document.createElement('style');
+injectedStyles.textContent = `
     @keyframes slideInRight {
         from { transform: translateX(100px); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
@@ -194,37 +155,7 @@ style.textContent = `
         60% { transform: translateX(-4px); }
         80% { transform: translateX(4px); }
     }
-`;
-document.head.appendChild(style);
 
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-        }
-    });
-}, observerOptions);
-
-const animatedElements = document.querySelectorAll(
-    '.product-card, .advantage-card, .gallery-item-large, .gallery-item-small, ' +
-    '.feature-item, .stat-item, .about-image, .about-content, ' +
-    '.section-header, .contact-info, .contact-form, .partner-card'
-);
-
-animatedElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    observer.observe(el);
-});
-
-const animStyle = document.createElement('style');
-animStyle.textContent = `
     .animate-in {
         animation: fastFadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
     }
@@ -255,7 +186,27 @@ animStyle.textContent = `
         opacity: 0;
     }
 `;
-document.head.appendChild(animStyle);
+document.head.appendChild(injectedStyles);
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, { root: null, rootMargin: '0px', threshold: 0.1 });
+
+const animatedElements = document.querySelectorAll(
+    '.product-card, .advantage-card, .gallery-item-large, .gallery-item-small, ' +
+    '.feature-item, .stat-item, .about-image, .about-content, ' +
+    '.section-header, .contact-info, .contact-form, .partner-card'
+);
+
+animatedElements.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    observer.observe(el);
+});
 
 document.querySelectorAll('.gallery-item-large-visual, .gallery-item-small').forEach(item => {
     item.addEventListener('click', () => {
@@ -395,35 +346,18 @@ document.addEventListener('click', () => {
     document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
 });
 
-// Services page animation
-const serviceObserver = new IntersectionObserver((entries) => {
+const revealOnScrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            serviceObserver.unobserve(entry.target);
+            revealOnScrollObserver.unobserve(entry.target);
         }
     });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.service-block').forEach(block => {
-    serviceObserver.observe(block);
-});
-
-// Team page animation
-const teamObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            teamObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.team-member').forEach(member => {
-    teamObserver.observe(member);
-});
-
-document.querySelectorAll('.team-leader, .team-card, .project-showcase-card').forEach(el => {
-    teamObserver.observe(el);
+document.querySelectorAll(
+    '.service-block, .team-member, .team-leader, .team-card, .project-showcase-card'
+).forEach(el => {
+    revealOnScrollObserver.observe(el);
 });
 

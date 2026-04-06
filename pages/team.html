@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Команда | PROSTO DOM</title>
+    <link rel="icon" href="../assets/images/favicon-tab.png" type="image/png">
+    <link rel="apple-touch-icon" href="../assets/images/favicon-tab.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/services.css">
     <link rel="stylesheet" href="../assets/css/team.css">
 </head>
 <body>
@@ -18,7 +21,7 @@
                     <img src="../assets/images/logo.png" alt="PROSTO DOM" class="logo-img">
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="../index.html#about" class="nav-link">О компании</a></li>
+                    <li><a href="about.html" class="nav-link">О компании</a></li>
                     <li><a href="../index.html#products" class="nav-link">Проекты домов</a></li>
                     <li><a href="services.html" class="nav-link">Услуги</a></li>
                     <li><a href="../index.html#gallery" class="nav-link">Портфолио</a></li>
@@ -108,6 +111,36 @@
         </div>
     </section>
 
+    <section class="services-cta">
+        <div class="container">
+            <h2>Готовы обсудить проект?</h2>
+            <p>Оставьте заявку, и мы свяжемся с вами для бесплатной консультации</p>
+            <form class="services-form" action="javascript:void(0)">
+                <div class="services-form-row">
+                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="tel" placeholder="Телефон" required>
+                    <div class="custom-select">
+                        <div class="custom-select-trigger">
+                            <span class="selected-text">Что вас интересует</span>
+                            <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2" aria-hidden="true">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-option" data-value="small">Маленький дом (50-120 м²)</div>
+                            <div class="custom-option" data-value="medium">Средний дом (120-160 м²)</div>
+                            <div class="custom-option" data-value="large">Большой дом (160-220+ м²)</div>
+                            <div class="custom-option" data-value="custom">Индивидуальный проект</div>
+                            <div class="custom-option" data-value="other">Другой вопрос</div>
+                        </div>
+                        <input type="hidden" name="interest" value="">
+                    </div>
+                    <button type="button" class="btn btn-accent services-submit-btn">Отправить заявку</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -120,11 +153,12 @@
                 <div class="footer-links">
                     <h4>Разделы</h4>
                     <ul>
-                        <li><a href="../index.html#about">О компании</a></li>
+                        <li><a href="about.html">О компании</a></li>
                         <li><a href="../index.html#products">Проекты домов</a></li>
-                        <li><a href="projects.html">Реализованные объекты</a></li>
+                        <li><a href="services.html">Услуги</a></li>
                         <li><a href="../index.html#gallery">Портфолио</a></li>
                         <li><a href="../index.html#payment">Процесс</a></li>
+                        <li><a href="team.html">Команда</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
@@ -135,7 +169,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 PROSTO DOM. Строительство частных домов под ключ.</p>
+                <p>© 2026 PROSTO DOM.</p>
+                <a href="privacy.html" class="footer-bottom-link">Политика конфиденциальности</a>
             </div>
         </div>
     </footer>
